@@ -797,15 +797,15 @@ if QuestC.Visible == true then
 
 						local Main = Library.xova()
 
-						local Tab1 = Main.create("เมนูหลัก")
+						local Tab1 = Main.create("Auto Farm Section")
 						
-						local Tab2 = Main.create("ผู้เล่น/สเเตก")
+						local Tab2 = Main.create("Stats")
 						
-						local Tab3 = Main.create("วาป/ดันเจี้ยน")
+						local Tab3 = Main.create("Teleport")
 						
-						local Tab4 = Main.create("ร้านค้า")
+						local Tab4 = Main.create("Fruit")
 						
-						local Tab5 = Main.create("อื่น ๆ")
+						local Tab5 = Main.create(")
 						
 						-------------[Tab1]-------------
 						
@@ -1014,5 +1014,179 @@ while wait() do
 			game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1"):Destroy();
 		end
 	end
+end
+end)
+
+
+Page2.Label({
+    Title = "Stats",
+})
+
+
+Page2.Label({
+    Title = "Main",
+})
+
+Page1.Toggle({
+Title = "Auto Farm Level",
+Mode = 2,
+Default = _G.Settings.Main["Auto Farm Level"],
+Desc = "Select Farm Type First",
+callback = function(value)
+_G.AutoFarmLevelReal = value
+Auto_Farm_Level = value
+if value == false then
+toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
+end
+SaveSettings()
+end,
+})
+Page3.Toggle({
+Title = "Fast Attack",
+Default = _G.Settings.Configs["Fast Attack"],
+callback = function(value)
+_G.Settings.Configs["Fast Attack"] = value
+SaveSettings()
+end,
+})
+
+Page3.Dropdown({
+Title = "Fast Attack Type",
+Item = {"Fast","Normal","Slow"},
+callback = function(value)
+_G.Settings.Configs["Fast Attack Type"] = value
+SaveSettings()
+end,
+})
+
+coroutine.wrap(function()
+while task.wait(.1) do
+local ac = CombatFrameworkR.activeController
+if ac and ac.equipped then
+if FastAttack and _G.Settings.Configs["Fast Attack"] then
+AttackFunction()
+if _G.Settings.Configs["Fast Attack Type"] == "Normal" then
+if tick() - cooldownfastattack > .9 then wait(.1) cooldownfastattack = tick() end
+elseif _G.Settings.Configs["Fast Attack Type"] == "Fast" then
+if tick() - cooldownfastattack > 1.5 then wait(.01) cooldownfastattack = tick() end
+elseif _G.Settings.Configs["Fast Attack Type"] == "Slow" then
+if tick() - cooldownfastattack > .3 then wait(.7) cooldownfastattack = tick() end
+end
+elseif FastAttack and _G.Settings.Configs["Fast Attack"] == false then
+if ac.hitboxMagnitude ~= 55 then
+ac.hitboxMagnitude = 55
+end
+ac:attack()
+end
+end
+end
+end)()
+
+Page3.Line()
+Page3.Toggle({
+Title = "Auto Haki",
+Default = _G.Settings.Configs["Auto Haki"],
+callback = function(value)
+_G.Settings.Configs["Auto Haki"] = value
+SaveSettings()
+end,
+})
+spawn(function()
+while wait() do
+if _G.Settings.Configs["Auto Haki"] then
+if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
+end
+end
+end
+end)
+-- [Table Weapon]
+Weapon = {
+"Melee",
+"Sword",
+"Fruit"
+}
+Page3.Line()
+Page3.Dropdown({
+Title = "Select Weapon",
+Item = Weapon,
+callback = function(value)
+SelectWeapon = value
+end,
+})
+
+task.spawn(function()
+while wait() do
+pcall(function()
+if SelectWeapon == "Melee" then
+for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if v.ToolTip == "Melee" then
+if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+    _G.Settings.Configs["Select Weapon"] = v.Name
+end
+end
+end
+elseif SelectWeapon == "Sword" then
+for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if v.ToolTip == "Sword" then
+if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+    _G.Settings.Configs["Select Weapon"] = v.Name
+end
+end
+end
+elseif SelectWeapon == "Fruit" then
+for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if v.ToolTip == "Blox Fruit" then
+if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+    _G.Settings.Configs["Select Weapon"] = v.Name
+end
+end
+end
+else
+for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if v.ToolTip == "Melee" then
+if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+    _G.Settings.Configs["Select Weapon"] = v.Name
+end
+end
+end
+end
+end)
+end
+end)
+spawn(function()
+while wait() do 
+if _G.AutoFarmLevelReal then
+if syn then
+setfflag("HumanoidParallelRemoveNoPhysics", "False")
+setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == true then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit = false
+end
+else
+if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+if not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1") then
+if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == true then
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit = false
+end
+local BodyVelocity = Instance.new("BodyVelocity")
+BodyVelocity.Name = "BodyVelocity1"
+BodyVelocity.Parent =  game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+BodyVelocity.MaxForce = Vector3.new(10000, 10000, 10000)
+BodyVelocity.Velocity = Vector3.new(0, 0, 0)
+end
+end
+for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+if v:IsA("BasePart") then
+v.CanCollide = false    
+end
+end
+end
+else
+if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1") then
+game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1"):Destroy();
+end
+end
 end
 end)
