@@ -1,3 +1,5 @@
+
+print("https://discord.gg/mugenz")
 toclipboard("https://discord.gg/mugenz")
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
 	game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
@@ -1014,8 +1016,3 @@ while wait() do
 	end
 end
 end)
-
-
-Page2.Label({
-    Title = "Stats",
-})
