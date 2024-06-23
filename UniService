@@ -805,7 +805,7 @@ if QuestC.Visible == true then
 						
 						local Tab4 = Main.create("Fruit")
 						
-						local Tab5 = Main.create(")
+						local Tab5 = Main.create("Misc"")
 						
 						-------------[Tab1]-------------
 						
