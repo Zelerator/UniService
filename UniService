@@ -1,3 +1,6 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
 print("https://discord.gg/aUd8umqUKu")
 toclipboard("https://discord.gg/aUd8umqUKu")
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
@@ -796,7 +799,7 @@ if QuestC.Visible == true then
 
 						local Main = Library.xova()
 
-						local Tab1 = Main.create("เมนูหลัก")
+						local Tab1 = Main.create("Main")
 						
 						local Tab2 = Main.create("ผู้เล่น/สเเตก")
 						
