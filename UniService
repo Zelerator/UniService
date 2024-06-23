@@ -1,4 +1,3 @@
-
 print("https://discord.gg/mugenz")
 toclipboard("https://discord.gg/mugenz")
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
