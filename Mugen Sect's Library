@@ -7,7 +7,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
-local MugenLib = {
+local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
 	Connections = {},
@@ -35,7 +35,7 @@ local Success, Response = pcall(function()
 end)
 
 if not Success then
-	warn("\nMugen Library - Failed to load Feather Icons. Error code: " .. Response .. "\n")
+	warn("\nOrion Library - Failed to load Feather Icons. Error code: " .. Response .. "\n")
 end	
 
 local function GetIcon(IconName)
@@ -46,53 +46,53 @@ local function GetIcon(IconName)
 	end
 end   
 
-local Mugen = Instance.new("ScreenGui")
-Mugen.Name = "Mugen"
+local Orion = Instance.new("ScreenGui")
+Orion.Name = "Orion"
 if syn then
 	syn.protect_gui(Orion)
-	Mugen.Parent = game.CoreGui
+	Orion.Parent = game.CoreGui
 else
-	Mugen.Parent = gethui() or game.CoreGui
+	Orion.Parent = gethui() or game.CoreGui
 end
 
 if gethui then
 	for _, Interface in ipairs(gethui():GetChildren()) do
-		if Interface.Name == Mugen.Name and Interface ~= Mugen then
+		if Interface.Name == Orion.Name and Interface ~= Orion then
 			Interface:Destroy()
 		end
 	end
 else
 	for _, Interface in ipairs(game.CoreGui:GetChildren()) do
-		if Interface.Name == Mugen.Name and Interface ~= Mugen then
+		if Interface.Name == Orion.Name and Interface ~= Orion then
 			Interface:Destroy()
 		end
 	end
 end
 
-function MugenLib:IsRunning()
+function OrionLib:IsRunning()
 	if gethui then
-		return Mugen.Parent == gethui()
+		return Orion.Parent == gethui()
 	else
-		return Mugen.Parent == game:GetService("CoreGui")
+		return Orion.Parent == game:GetService("CoreGui")
 	end
 
 end
 
 local function AddConnection(Signal, Function)
-	if (not MugenLib:IsRunning()) then
+	if (not OrionLib:IsRunning()) then
 		return
 	end
 	local SignalConnect = Signal:Connect(Function)
-	table.insert(MugenLib.Connections, SignalConnect)
+	table.insert(OrionLib.Connections, SignalConnect)
 	return SignalConnect
 end
 
 task.spawn(function()
-	while (MugenLib:IsRunning()) do
+	while (OrionLib:IsRunning()) do
 		wait()
 	end
 
-	for _, Connection in next, MugenLib.Connections do
+	for _, Connection in next, OrionLib.Connections do
 		Connection:Disconnect()
 	end
 end)
@@ -140,13 +140,13 @@ local function Create(Name, Properties, Children)
 end
 
 local function CreateElement(ElementName, ElementFunction)
-	MugenLib.Elements[ElementName] = function(...)
+	OrionLib.Elements[ElementName] = function(...)
 		return ElementFunction(...)
 	end
 end
 
 local function MakeElement(ElementName, ...)
-	local NewElement = MugenLib.Elements[ElementName](...)
+	local NewElement = OrionLib.Elements[ElementName](...)
 	return NewElement
 end
 
@@ -189,18 +189,18 @@ local function ReturnProperty(Object)
 end
 
 local function AddThemeObject(Object, Type)
-	if not MugenLib.ThemeObjects[Type] then
-		MugenLib.ThemeObjects[Type] = {}
+	if not OrionLib.ThemeObjects[Type] then
+		OrionLib.ThemeObjects[Type] = {}
 	end    
-	table.insert(MugenLib.ThemeObjects[Type], Object)
-	Object[ReturnProperty(Object)] = MugenLib.Themes[MugenLib.SelectedTheme][Type]
+	table.insert(OrionLib.ThemeObjects[Type], Object)
+	Object[ReturnProperty(Object)] = OrionLib.Themes[OrionLib.SelectedTheme][Type]
 	return Object
 end    
 
 local function SetTheme()
-	for Name, Type in pairs(MugenLib.ThemeObjects) do
+	for Name, Type in pairs(OrionLib.ThemeObjects) do
 		for _, Object in pairs(Type) do
-			Object[ReturnProperty(Object)] = MugenLib.Themes[MugenLib.SelectedTheme][Name]
+			Object[ReturnProperty(Object)] = OrionLib.Themes[OrionLib.SelectedTheme][Name]
 		end    
 	end    
 end
@@ -216,23 +216,23 @@ end
 local function LoadCfg(Config)
 	local Data = HttpService:JSONDecode(Config)
 	table.foreach(Data, function(a,b)
-		if MugenLib.Flags[a] then
+		if OrionLib.Flags[a] then
 			spawn(function() 
-				if MugenLib.Flags[a].Type == "Colorpicker" then
-					MugenLib.Flags[a]:Set(UnpackColor(b))
+				if OrionLib.Flags[a].Type == "Colorpicker" then
+					OrionLib.Flags[a]:Set(UnpackColor(b))
 				else
-					MugenLib.Flags[a]:Set(b)
+					OrionLib.Flags[a]:Set(b)
 				end    
 			end)
 		else
-			warn("Mugen Library Config Loader - Could not find ", a ,b)
+			warn("Orion Library Config Loader - Could not find ", a ,b)
 		end
 	end)
 end
 
 local function SaveCfg(Name)
 	local Data = {}
-	for i,v in pairs(MugenLib.Flags) do
+	for i,v in pairs(OrionLib.Flags) do
 		if v.Save then
 			if v.Type == "Colorpicker" then
 				Data[i] = PackColor(v.Value)
@@ -241,7 +241,7 @@ local function SaveCfg(Name)
 			end
 		end	
 	end
-	writefile(MugenLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
+	writefile(OrionLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
@@ -388,7 +388,7 @@ local NotificationHolder = SetProps(SetChildren(MakeElement("TFrame"), {
 	Parent = Orion
 })
 
-function MugenLib:MakeNotification(NotificationConfig)
+function OrionLib:MakeNotification(NotificationConfig)
 	spawn(function()
 		NotificationConfig.Name = NotificationConfig.Name or "Notification"
 		NotificationConfig.Content = NotificationConfig.Content or "Test"
@@ -449,12 +449,12 @@ function MugenLib:MakeNotification(NotificationConfig)
 	end)
 end    
 
-function MugenLib:Init()
-	if MugenLib.SaveCfg then	
+function OrionLib:Init()
+	if OrionLib.SaveCfg then	
 		pcall(function()
-			if isfile(MugenLib.Folder .. "/" .. game.GameId .. ".txt") then
+			if isfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt") then
 				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
-				MugenLib:MakeNotification({
+				OrionLib:MakeNotification({
 					Name = "Configuration",
 					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
 					Time = 5
@@ -464,7 +464,7 @@ function MugenLib:Init()
 	end	
 end	
 
-function MugenLib:MakeWindow(WindowConfig)
+function OrionLib:MakeWindow(WindowConfig)
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
@@ -483,8 +483,8 @@ function MugenLib:MakeWindow(WindowConfig)
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
 	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
-	MugenLib.Folder = WindowConfig.ConfigFolder
-	MugenLib.SaveCfg = WindowConfig.SaveConfig
+	OrionLib.Folder = WindowConfig.ConfigFolder
+	OrionLib.SaveCfg = WindowConfig.SaveConfig
 
 	if WindowConfig.SaveConfig then
 		if not isfolder(WindowConfig.ConfigFolder) then
@@ -687,7 +687,7 @@ function MugenLib:MakeWindow(WindowConfig)
 	local function LoadSequence()
 		MainWindow.Visible = false
 		local LoadSequenceLogo = SetProps(MakeElement("Image", WindowConfig.IntroIcon), {
-			Parent = Mugen,
+			Parent = Orion,
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 0, 0.4, 0),
 			Size = UDim2.new(0, 28, 0, 28),
@@ -696,7 +696,7 @@ function MugenLib:MakeWindow(WindowConfig)
 		})
 
 		local LoadSequenceText = SetProps(MakeElement("Label", WindowConfig.IntroText, 14), {
-			Parent = Mugen,
+			Parent = Orion,
 			Size = UDim2.new(1, 0, 1, 0),
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 19, 0.5, 0),
@@ -988,7 +988,7 @@ function MugenLib:MakeWindow(WindowConfig)
 				end)
 
 				if ToggleConfig.Flag then
-					MugenLib.Flags[ToggleConfig.Flag] = Toggle
+					OrionLib.Flags[ToggleConfig.Flag] = Toggle
 				end	
 				return Toggle
 			end  
@@ -1083,7 +1083,7 @@ function MugenLib:MakeWindow(WindowConfig)
 
 				Slider:Set(Slider.Value)
 				if SliderConfig.Flag then				
-					MugenLib.Flags[SliderConfig.Flag] = Slider
+					OrionLib.Flags[SliderConfig.Flag] = Slider
 				end
 				return Slider
 			end  
@@ -1238,7 +1238,7 @@ function MugenLib:MakeWindow(WindowConfig)
 				Dropdown:Refresh(Dropdown.Options, false)
 				Dropdown:Set(Dropdown.Value)
 				if DropdownConfig.Flag then				
-					MugenLib.Flags[DropdownConfig.Flag] = Dropdown
+					OrionLib.Flags[DropdownConfig.Flag] = Dropdown
 				end
 				return Dropdown
 			end
@@ -1360,7 +1360,7 @@ function MugenLib:MakeWindow(WindowConfig)
 
 				Bind:Set(BindConfig.Default)
 				if BindConfig.Flag then				
-					MugenLib.Flags[BindConfig.Flag] = Bind
+					OrionLib.Flags[BindConfig.Flag] = Bind
 				end
 				return Bind
 			end  
@@ -1624,7 +1624,7 @@ function MugenLib:MakeWindow(WindowConfig)
 
 				Colorpicker:Set(Colorpicker.Value)
 				if ColorpickerConfig.Flag then				
-					MugenLib.Flags[ColorpickerConfig.Flag] = Colorpicker
+					OrionLib.Flags[ColorpickerConfig.Flag] = Colorpicker
 				end
 				return Colorpicker
 			end  
@@ -1759,8 +1759,8 @@ function MugenLib:MakeWindow(WindowConfig)
 	return TabFunction
 end   
 
-function MugenLib:Destroy()
-	Mugen:Destroy()
+function OrionLib:Destroy()
+	Orion:Destroy()
 end
 
-return MugenLib
+return OrionLib
