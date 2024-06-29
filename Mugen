@@ -17,13 +17,13 @@ if _G.Auto_Stats_Sword then
 end
 end
 
-local FarmTab = Window:MakeTab({
-	Name = "Auto Farm",
+local StatsTab = Window:MakeTab({
+	Name = "Auto Stats",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
-FarmTab:AddToggle({
+StatsTab:AddToggle({
 	Name = "Melee Stat Toggle",
 	Default = false,
 	Callback = function(Value)
