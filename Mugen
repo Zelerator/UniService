@@ -70,7 +70,7 @@
 
 
 
-	-- Buttons Section
+	-- Shop Buttons Section
 
 	ShopTab:AddButton({
 		Name = "Buy Black Leg",
