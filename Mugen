@@ -1,34 +1,713 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Mugen Sect | BloxFruits Script", IntroText = "Mugen Sect | By Zelerator", HidePremium = false, SaveConfig = true, ConfigFolder = "Mugen Sect Folder"})
+local Window = OrionLib:MakeWindow({Name = "UniService | BloxFruits Script", IntroText = "Blox Fruit Script | By UniService ", HidePremium = false, SaveConfig = true, ConfigFolder = "Uni Folder"})
 
-
-_G.Auto_Stats_Sword = true
-
-
-function Auto_Stats_Sword()
-if _G.Auto_Stats_Sword then
-    local args = {
-        [1] = "AddPoint",
-        [2] = "Sword",
-        [3] = _G.Point
-    }
-                
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end
-end
+--Tabs Section
+local FarmTab = Window:MakeTab({
+    Name = "Auto Items",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
 local StatsTab = Window:MakeTab({
-	Name = "Auto Stats",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+    Name = "Auto Stats",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local TeleportTab = Window:MakeTab({
+    Name = "Teleport Island",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local NPCTab = Window:MakeTab({
+    Name = "Tween to NPC",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local FruitsTab = Window:MakeTab({
+    Name = "Fruits Stuff",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local RaceTab = Window:MakeTab({
+    Name = "Race Stuff",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local ShopTab = Window:MakeTab({
+    Name = "Shop Items",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local SettingTab = Window:MakeTab({
+    Name = "Setting Tab",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local MiscTab = Window:MakeTab({
+    Name = "Misc Section",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Sea_EventTab = Window:MakeTab({
+    Name = "Sea Events",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local CreditsTab = Window:MakeTab({
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+
+	-- Values
+	_G.MeleeStat = true
+
+
+
+	-- Functions
+
+
+-- Stats toggle Section
+StatsTab:AddToggle({
+	Name = "Auto melee Stat",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end
 })
 
 StatsTab:AddToggle({
-	Name = "Melee Stat Toggle",
+	Name = "Auto Defense Stat",
 	Default = false,
 	Callback = function(Value)
-		_G.AutoStats_Sword = value
-        Auto_Stats_Sword()
+		print(Value)
 	end    
 })
 
+StatsTab:AddToggle({
+	Name = "Auto Sword Stat",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+StatsTab:AddToggle({
+	Name = "Auto Gun Stat",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+StatsTab:AddToggle({
+	Name = "Auto Fruit Stat",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+-- Teleport Section
+TeleportTab:AddButton({
+	Name = "First Sea",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Second Sea",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Third Sea",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Port Town",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-290.7376708984375, 6.729952812194824, 5343.5537109375)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Hydra Island",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(5228.8842773438, 604.23400878906, 345.0400390625)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Floating Turtle",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-13274.528320313, 531.82073974609, -7579.22265625)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+    Name = "Haunted Castle",
+    Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-9515.3720703125, 164.00624084473, 5786.0610351562)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+      end
+})
+
+TeleportTab:AddButton({
+	Name = "Mansion [Instant]",
+	Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-12471.169921875, 374.94024658203, -7551.677734375))
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Ice Cream Island",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-902.56817626953, 79.93204498291, -10988.84765625)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Peanut Island",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-2062.7475585938, 50.473892211914, -10232.568359375)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Cake Island",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(-1884.7747802734375, 19.327526092529297, -11666.8974609375)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+TeleportTab:AddButton({
+	Name = "Chocolate Island",
+	Callback = function()
+        local TweenService = game:GetService("TweenService")
+        local Workspace = game:GetService("Workspace")
+        local Players = game:GetService("Players")
+        
+        
+        local targetPosition = Vector3.new(231.742981, 25.3354111, -12199.0537, 0.998278677, -5.16006757e-08, 0.0586484075, 4.79685092e-08, 1, 6.33390442e-08, -0.0586484075, -6.04167383e-08, 0.998278677)
+        
+        
+        local humanoidRootPart = Workspace.Characters.abysrioami.HumanoidRootPart
+        local startPosition = humanoidRootPart.Position
+        
+        
+        local distance = (targetPosition - startPosition).magnitude
+        
+        
+        local speed = 200  
+        local duration = distance / speed
+        
+        
+        local player = Players.LocalPlayer
+        local character = player.Character
+        if not character then
+            character = player.CharacterAdded:Wait()
+        end
+        
+        
+        local camera = Workspace.CurrentCamera
+        camera.CameraType = Enum.CameraType.Scriptable
+        camera.CFrame = CFrame.new(camera.CFrame.Position, humanoidRootPart.Position)
+        
+        
+        local tween = TweenService:Create(
+            humanoidRootPart, 
+            TweenInfo.new(
+                duration,      
+                Enum.EasingStyle.Linear, 
+                Enum.EasingDirection.Out, 
+                0,               
+                false,            
+                0                
+            ),
+            {CFrame = CFrame.new(targetPosition)} 
+        )
+        
+        
+        tween:Play()
+        
+        tween.Completed:Connect(function()
+        
+            print("Tween animation completed!")
+            camera.CameraType = Enum.CameraType.Custom 
+        end)
+        
+  	end    
+})
+
+
+-- Shop Buttons Section
+ShopTab:AddButton({
+    Name = "Buy Black Leg",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBlackLeg")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Electro",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectro")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Fishman Karate",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyFishmanKarate")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Dragon Claw",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonClaw")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Superhuman",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySuperhuman")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Death Step",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDeathStep")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Sharkman Karate",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySharkmanKarate")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Electric Claw",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Dragon Talon",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy Godhuman",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyGodhuman")
+      end
+})
+
+ShopTab:AddButton({
+    Name = "Buy SanguineArt",
+    Callback = function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySanguineArt")
+      end
+})
+
+
+--Credits of this script
+CreditsTab:AddLabel("Credits of This Script all belong to")
+CreditsTab:AddLabel("Zelerator | Raizelerator")
+CreditsTab:AddLabel("Altex Kuroya")
+CreditsTab:AddLabel("Mugen Shop")
+CreditsTab:AddLabel("Valdemoire")
+CreditsTab:AddLabel("Join our Discord Server")
+CreditsTab:AddLabel("Discord.gg/mugen-sect")
+
+
+
+OrionLib:Init()
