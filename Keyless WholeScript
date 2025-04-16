@@ -15,7 +15,7 @@ frame.Parent = screenGui
 
 -- Create the TextLabel
 local label = Instance.new("TextLabel")
-label.Text = "Whole Script Running..."
+label.Text = "Mobile Executors: 3-5 Seconds...\nWeb Executors: 15-50 Seconds..."
 label.Font = Enum.Font.SourceSansBold
 label.TextSize = 36
 label.TextColor3 = Color3.new(1, 1, 1)
