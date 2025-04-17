@@ -47,12 +47,12 @@ task.delay(3, function()
 	end
 end)
 task.wait()
-print("Script Running")
+    print("Script Running")
     print("Please wait, web Executors take a while to load.")
     local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/ASKID/refs/heads/main/ASAIYAUI'))()
     
     local Window = Rayfield:CreateWindow({
-        Name = "Asaiya Script for No limit and Lifting Simulator [BETA]",
+        Name = "Asaiya Script for No limit and Lifting Simulator [ALPHA]",
         Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
         LoadingTitle = "Script for NLLS",
         LoadingSubtitle = "Made by Asaiya",
@@ -92,11 +92,11 @@ print("Script Running")
         Duration = 3.5,
         Image = 4483362458,
      })
-    
-     local MainTab = Window:CreateTab(" Automatics", nil)
-     local TryTab = Window:CreateTab("Bloodline & Island", nil)
-     local PlayerTab = Window:CreateTab("Players", nil)
-     local SetTab = Window:CreateTab("Settings", nil)
+
+     local MainTab = Window:CreateTab("💪 Automatics💪", nil)
+     local TryTab = Window:CreateTab("🏝️🦶[New!] Bloodline & Island🏝️🦶", nil)
+     local PlayerTab = Window:CreateTab("🤼Players🤼", nil)
+     local SetTab = Window:CreateTab("🛠️Settings🛠️", nil)
      local MiscTab = Window:CreateTab("✅Information✅", nil)
      local player = game.Players.LocalPlayer
     local Toggle = MainTab:CreateToggle({
@@ -204,7 +204,7 @@ print("Script Running")
                             }
                         }
                         remoteEvent:FireServer(unpack(args))
-                        task.wait(0.43) -- Gains muscle every 0.4 seconds
+                        task.wait(0.45) -- Gains muscle every 0.4 seconds
                     end
                 end)
     
@@ -262,7 +262,7 @@ print("Script Running")
     local selectedMode = "None"
     
     local Dropdown = MainTab:CreateDropdown({
-        Name = "Choose Gain Muscle (30+ FPS MINIMUM)",
+        Name = "Choose Gain Muscle",
         Options = {
             "None",
             "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)",
@@ -314,6 +314,7 @@ print("Script Running")
         Options = {
             "None",
             "Instant",
+            "Half Second",
             "Every 1 Second",
             "Every 3 Seconds",
             "Every 5 Seconds",
@@ -410,7 +411,9 @@ print("Script Running")
                         local lastSellTime = tick() -- Get the current time
                         local interval = 0
                         if     selectedSellMode == "Instant" then
-                            interval = 0.5
+                            interval = 0.1
+                        elseif     selectedSellMode == "Half second" then
+                                interval = 0.6
                         elseif selectedSellMode == "Every 1 Second" then
                             interval = 1
                         elseif selectedSellMode == "Every 3 Seconds" then
@@ -1008,8 +1011,8 @@ print("Script Running")
         destroyedObjects = {}
     end
     
+    -- Invsisibility
     local player = game.Players.LocalPlayer
-    
     local function setTrueInvisibility(state)
         local character = player.Character or player.CharacterAdded:Wait()
         if not character then return end
@@ -1181,16 +1184,40 @@ print("Script Running")
     local webhookURL = nil
     local shouldSend = false
     
-    -- Function to send stats (unchanged if already working)
+    -- Helper: Format big numbers (e.g., 1.2M)
+    local function formatBigNumber(num)
+        if num >= 1e9 then
+            return string.format("%.2fB", num / 1e9)
+        elseif num >= 1e6 then
+            return string.format("%.2fM", num / 1e6)
+        elseif num >= 1e3 then
+            return string.format("%.2fK", num / 1e3)
+        else
+            return tostring(num)
+        end
+    end
+    
+    -- Helper: Get available HTTP request function
+    local function getHttpFunction()
+        return (syn and syn.request) or http_request or request or (fluxus and fluxus.request) or nil
+    end
+    
+    -- Send stats to webhook
     local function sendStats()
         if not webhookURL then return end
+    
+        local http = getHttpFunction()
+        if not http then
+            warn("This executor does not support HTTP requests.")
+            return
+        end
     
         local player = game:GetService("Players").LocalPlayer
         local leaderstats = player:WaitForChild("leaderstats")
         local muscle = leaderstats:FindFirstChild("Muscle") and leaderstats.Muscle.Value or 0
         local stage = leaderstats:FindFirstChild("Stage") and leaderstats.Stage.Value or 0
         local username = player.Name
-        local cashText = player.PlayerGui.Main_Gui.DataMenu_Frame.Cash.Status.Text
+        local cashText = player.PlayerGui:FindFirstChild("Main_Gui") and player.PlayerGui.Main_Gui:FindFirstChild("DataMenu_Frame") and player.PlayerGui.Main_Gui.DataMenu_Frame.Cash.Status.Text or "N/A"
         local displayCash = cashText:gsub("0%.00%s*", "")
     
         local muscleDisplay = (muscle == 0) and "Concealed :lock:" or formatBigNumber(muscle)
@@ -1201,14 +1228,14 @@ print("Script Running")
                         "\n**:cyclone: Stage:** " .. stage ..
                         "\n**:moneybag: Cash:** " .. displayCash,
             ["username"] = "Stat Logger",
-            ["avatar_url"] = "https://cdn.discordapp.com/attachments/1350798224197160982/1359693324813996072/Azuma_Logo.png?ex=67f86896&is=67f71716&hm=6d01d7a7ce714ea9c45fceedb77915babd994e0d0a2beb873153f847e115e34d&"
+            ["avatar_url"] = "https://cdn.discordapp.com/attachments/1350798224197160982/1359693324813996072/Azuma_Logo.png"
         }
     
         local headers = {["Content-Type"] = "application/json"}
         local body = game:GetService("HttpService"):JSONEncode(data)
     
         local success, err = pcall(function()
-            http_request({
+            http({
                 Url = webhookURL,
                 Method = "POST",
                 Headers = headers,
@@ -1223,7 +1250,7 @@ print("Script Running")
         end
     end
     
-    -- Function to start the webhook timer loop
+    -- Webhook timer loop (every 10 minutes)
     local function startWebhookLoop()
         if webhookConnection then
             webhookConnection:Disconnect()
@@ -1231,14 +1258,14 @@ print("Script Running")
     
         _G._lastSend = 0
         webhookConnection = game:GetService("RunService").Heartbeat:Connect(function()
-            if shouldSend and webhookURL and tick() - _G._lastSend >= 600 then -- every 10 minutes
+            if shouldSend and webhookURL and tick() - _G._lastSend >= 600 then
                 _G._lastSend = tick()
                 sendStats()
             end
         end)
     end
     
-    -- Function to create the GUI and handle input
+    -- GUI to enter webhook URL
     local function createWebhookGui()
         local screenGui = Instance.new("ScreenGui")
         screenGui.Name = "WebhookInputGui"
@@ -1277,18 +1304,30 @@ print("Script Running")
         submitButton.TextColor3 = Color3.new(1, 1, 1)
         submitButton.Parent = frame
     
-        -- Button logic
         submitButton.MouseButton1Click:Connect(function()
             if textBox.Text ~= "" then
                 webhookURL = textBox.Text
                 print("Webhook URL set to:", webhookURL)
+    
+                -- Executor check
+                if not getHttpFunction() then
+                    warn("Executor does not support sending webhooks.")
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Unsupported Executor",
+                        Text = "Your executor cannot send webhooks.",
+                        Duration = 5
+                    })
+                    screenGui:Destroy()
+                    return
+                end
+    
                 screenGui:Destroy()
                 startWebhookLoop()
             end
         end)
     end
     
-    -- Finally — your toggle
+    -- TOGGLE: Enable/disable webhook logging
     local Toggle = SetTab:CreateToggle({
         Name = "Enable Webhook Logger",
         CurrentValue = false,
@@ -1298,7 +1337,7 @@ print("Script Running")
             if shouldSend then
                 createWebhookGui()
             else
-                -- stop everything
+                -- Stop webhook loop and clean up
                 if webhookConnection then
                     webhookConnection:Disconnect()
                     webhookConnection = nil
@@ -2299,11 +2338,12 @@ print("Script Running")
     local Paragraph = MiscTab:CreateParagraph({Title = "Destroy Everything", Content = "Destroys all Mesh and non required things to save FPS"})
     local Paragraph = MiscTab:CreateParagraph({Title = "True INVISIBILITY", Content = "Completely Makes your character Disappear to save FPS, Only invisible to you."})
     local Paragraph = MiscTab:CreateParagraph({Title = "Freeze Position", Content = "Literally freezes your avatar, so if you're falling, you will stay in that position."})
-    local Paragraph = MiscTab:CreateParagraph({Title = "UI Belongs to", Content = "Rayfield"})
-    local Paragraph = TryTab:CreateParagraph({Title = "OPTIONS", Content = "Same as OLD VERSION But can choose multiple. With Race."})
+    local Paragraph = TryTab:CreateParagraph({Title = "OPTIONS", Content = "Recommended: Only turn on 1 or 2"})
     local Paragraph = MainTab:CreateParagraph({Title = "Automatics", Content = "Everything here is for gaining/selling/buying Only."})
     local Paragraph = PlayerTab:CreateParagraph({Title = "Player Hunt", Content = "Will Teleport to a player who is on the opposite team\n Make sure to Equip Fist/Foot."})
     
     print("SCRIPT HAS LOADED!")
+    
+ 
     
  
