@@ -1164,7 +1164,7 @@ task.wait()
             task.spawn(function()
                 while AutoEquipUnequip do
                     equipTools()
-                    task.wait(18)
+                    task.wait(11)
     
                     unequipTools()
                     task.wait(0.1)
