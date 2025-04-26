@@ -1222,13 +1222,13 @@ local Toggle = SetTab:CreateToggle({
                 task.wait(0.1)
 
                 equipFoot()
-                task.wait(0.5)
+                task.wait(0.3)
 
                 unequipTools()
                 task.wait(0.1)
 
                 equipTools()
-                task.wait(0.5)
+                task.wait()
             end
         end)
     end,
