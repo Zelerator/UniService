@@ -798,14 +798,27 @@ local Toggle = SetTab:CreateToggle({
  })
 
  local Toggle = SetTab:CreateToggle({
-    Name = "Auto Clicker Killstreak",
+    Name = "Auto Clicker Killstreak17",
     CurrentValue = false,
     Flag = "Toggle10", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
         getgenv().CKillstreak = Value
         while CKillstreak == true do
                 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
-                wait(5)
+                wait(17)
+            end
+        end,
+ })
+
+ local Toggle = SetTab:CreateToggle({
+    Name = "Auto Clicker Killstreak23",
+    CurrentValue = false,
+    Flag = "Toggle10", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        getgenv().CKillstreak = Value
+        while CKillstreak == true do
+                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                wait(23)
             end
         end,
  })
