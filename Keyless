@@ -831,7 +831,7 @@ local Toggle = SetTab:CreateToggle({
         getgenv().CKillstreak = Value
         while CKillstreak == true do
                 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
-                wait(23)
+                wait(28)
             end
         end,
  })
