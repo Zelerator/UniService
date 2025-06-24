@@ -3,7 +3,7 @@ print("Please wait, web Executors take a while to load.")
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/ASKID/refs/heads/main/ASAIYAUI'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Asaiya Script for No limit and Lifting Simulator [SEX]",
+    Name = "Asaiya Script for No limit and Lifting Simulator [ALPHA]",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
     LoadingTitle = "Script for NLLS",
     LoadingSubtitle = "Made by Asaiya",
@@ -429,7 +429,7 @@ Callback = function(Value)
             "Canyon Mt.", "Mountain", "Volcano", "Mt. Fuji", "Meteorite", "Moon",
             "Mercury", "Mars", "Saturn", "Jupiter", "Super Saturn", "Sedna Bar", "Sun",
             "Mini Galaxy", "Earth Bar", "Black Hole", "Four Dimensions", "Sun Bar", 
-            "Holy Star", "Meteoroids Ring", "Meteor Bar", "Water Sphere", "SUPER Meteorite",
+            "Holy Star", "Meteoroids Ring", "Meteor Bar", "Water Sphere", "Super Meteorite",
             "Cross Stars", "Fiery Star", "Super Venus", "Atomic Suns", "Lightning Cube",
             "Atmosphere", "Five Dimensions", "Space Stone", "Universe", "Mind Stone",
             "Reality Stone", "Soul Stone", "Time Stone", "Power Stone", "Cosmo Bar",
