@@ -3,7 +3,7 @@ print("Please wait, web Executors take a while to load.")
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/ASKID/refs/heads/main/ASAIYAUI'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Asaiya Script for No limit and Lifting Simulator [ASAIYA]",
+    Name = "Asaiya Script for No limit and Lifting Simulator [ALPHA]",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
     LoadingTitle = "Script for NLLS",
     LoadingSubtitle = "Made by Asaiya",
@@ -438,9 +438,9 @@ Callback = function(Value)
             "Godly 2nd Class", "Godly 3rd Class", "Godly 4th Class", "Godly 5th Class",
             "Godly 6th Class", "Godly 7th Class", "Godly 8th Class", "Godly 9th Class", 
             "1ST SUPER CLASS", "2ND SUPER CLASS", "3RD SUPER CLASS", "4TH SUPER CLASS",
-            "5TH SUPER CLASS", "6TH SUPER CLASS", "7TH SUPER CLASS", " 8TH SUPER CLASS",
+            "5TH SUPER CLASS", "6TH SUPER CLASS", "7TH SUPER CLASS", "8TH SUPER CLASS",
             "9TH SUPER CLASS", "10TH SUPER CLASS", "11TH SUPER CLASS", "1ST  ULTIMATE CLASS",
-            "2ND ULTIMATE CLASS", "3RD ULTIMATE CLASS", "4TH  ULTIMATE CLASS", 
+            "2ND ULTIMATE CLASS", "3RD ULTIMATE CLASS", "4TH ULTIMATE CLASS", 
             "5TH ULTIMATE CLASS", "6TH ULTIMATE CLASS", "ULTIMATE 7TH CLASS", 
             "8TH ULTIMATE CLASS", "9TH ULTIMATE CLASS", "1ST SUPREME CLASS", 
             "2ND SUPREME CLASS", "3RD SUPREME CLASS", "4TH SUPREME CLASS", "5TH SUPREME CLASS",
