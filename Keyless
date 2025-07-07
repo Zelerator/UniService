@@ -441,10 +441,10 @@ Callback = function(Value)
             "5TH SUPER CLASS", "6TH SUPER CLASS", "7TH SUPER CLASS", "8TH SUPER CLASS",
             "9TH SUPER CLASS", "10TH SUPER CLASS", "11TH SUPER CLASS", "1ST ULTIMATE CLASS",
             "2ND ULTIMATE CLASS", "3RD ULTIMATE CLASS", "4TH ULTIMATE CLASS", 
-            "5TH ULTIMATE CLASS", "6TH ULTIMATE CLASS", "ULTIMATE 7TH CLASS", 
+            "5TH ULTIMATE CLASS", "6TH ULTIMATE CLASS", "7TH ULTIMATE CLASS", 
             "8TH ULTIMATE CLASS", "9TH ULTIMATE CLASS", "1ST SUPREME CLASS", 
             "2ND SUPREME CLASS", "3RD SUPREME CLASS", "4TH SUPREME CLASS", "5TH SUPREME CLASS",
-            "6TH SUPREME CLASS", "7TH SUPREME CLASS", "8TH SUPREME CLASS", "9TH SUPREME CLASS"
+            "6TH SUPREME CLASS", "7TH SUPREME CLASS", "8TH SUPREME CLASS", "9TH SUPREME CLASS", "ULTIMATE SUPREME CLASS"
         }
 
         -- Function to check if player has a weight (either in backpack or equipped)
@@ -1436,14 +1436,14 @@ local Toggle = SetTab:CreateToggle({
 
 
 local Button = SetTab:CreateButton({
-    Name = "Click For a Surprise",
+    Name = "Click to get Reborn",
     Callback = function()
         local player = game.Players.LocalPlayer
         local starterGui = game:GetService("StarterGui")
         
         -- Display fake ban message
         starterGui:SetCore("SendNotification", {
-            Title = "Surprise!!",
+            Title = "You thought you were\nGonna get a reborn?",
             Text = "The Developers know\nWhat you're doing!",
             Duration = 3
         })
@@ -1452,7 +1452,7 @@ local Button = SetTab:CreateButton({
         task.wait(2)
 
         starterGui:SetCore("SendNotification", {
-            Title = "BANNING INCOMING",
+            Title = "BAN INCOMING",
             Text = "3",
             Duration = 1.1
         })
@@ -1460,7 +1460,7 @@ local Button = SetTab:CreateButton({
         task.wait(1.2)
 
         starterGui:SetCore("SendNotification", {
-            Title = "BANNING INCOMING",
+            Title = "BAN INCOMING",
             Text = "2",
             Duration = 1.1
         })
@@ -1468,7 +1468,7 @@ local Button = SetTab:CreateButton({
         task.wait(1.2)
 
         starterGui:SetCore("SendNotification", {
-            Title = "BANNING INCOMING",
+            Title = "BAN INCOMING",
             Text = "1",
             Duration = 1.1
         })
