@@ -1262,6 +1262,34 @@ local Toggle = SetTab:CreateToggle({
     end,
 })
 
+local Toggle = SetTab:CreateToggle({
+    Name = "Auto Equip/Unequip Weight every 10 minutes",
+    CurrentValue = false,
+    Flag = "SlowEquip",
+    Callback = function(Value)
+        getgenv().AutoEquipUnequip = Value
+
+        task.spawn(function()
+            while AutoEquipUnequip do
+                equipTools()
+                task.wait(600)
+
+                unequipTools()
+                task.wait()
+
+                equipFoot()
+                task.wait()
+
+                unequipTools()
+                task.wait()
+
+                equipTools()
+                task.wait()
+            end
+        end)
+    end,
+})
+
 local webhookConnection = nil
 local webhookGui = nil
 local webhookURL = nil
