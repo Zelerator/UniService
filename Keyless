@@ -490,7 +490,7 @@ Callback = function(Value)
         }
         game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
 
-        task.wait(1) -- Adjust delay as needed
+        task.wait(0.4) -- Adjust delay as needed
     end
 end
 })
